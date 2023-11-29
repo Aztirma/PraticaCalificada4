@@ -193,13 +193,82 @@ Esta sección nos pide utilizar el repositorio y las actividades que has hemos d
 
 a. Modifica la vista Index para incluir el número de fila de cada fila en la tabla de películas.  
 
+Para realizar esta modificación, nos dirijimos al directorio /app/views/movies/index.html.erb, y a continuación agregamos las siguientes lineas para crear una columna más en nuestra tabla, asi como se observa a continuación
+ 
+![Alt text](image-3.png)
+ 
+ AAgregamos <th>Order </th> que es el nombre de la columna que vamos a crear y agregamos el cuerpo de la columna que vamos a crear.
 
+```ruby
+<th>movie.Order</th>
+```
 
 b. Modifica la vista Index para que cuando se sitúe el ratón sobre una fila de la tabla, dicha 
 fila cambie temporalmente su color de fondo a amarillo u otro color.  
+
+Para se debe implementar un método en 'movies_controller', para que como se pide cuando se sitúe el ratón sobre una fila de la tabla, dicha fila cambie temporalmente su color de fondo a amarillo u otro color, primero lo definimos aqui junto a los otros métodos, llamaremos a este método `style_row`
+
+```ruby
+def
+```
+![Alt text](image-5.png)
+
+Para posteriormente implementarlo en el método Index:
+
+![Alt text](image-x.png)
 
 
 c. Modifica la acción Index del controlador para que devuelva las películas ordenadas 
 alfabéticamente por título, en vez de por fecha de lanzamiento. 
 
+ En esta sección, reemplazamos el siguiente código:
+
+ ```html
+<tr>
+  <th class="<%=@title_header_class%>" ><%= link_to "Movie Title", movies_path(sort: 'title', direction: sort_direction), id: 'title_header' %></th>
+  <th>Rating</th>
+  <th class="<%=@release_date_header_class%>" ><%= link_to "Release Date", movies_path(sort: 'release_date', direction: sort_direction), id: 'release_date_header' %></th>
+  <th>More Info</th>
+</tr>
+ ```
+
+- Se ha añadido el método `link_to` para crear enlaces clicables alrededor de los títulos de las columnas "Movie Title" y "Release Date".
+- Se utiliza `movies_path` como la ruta a la que apuntan los enlaces, indicando que se debe ordenar por el atributo correspondiente (ya sea 'title' o 'release_date').
+- La dirección de ordenación se determina mediante el parámetro `direction` y se gestiona dinámicamente según la columna seleccionada.
+- Se ha añadido un identificador (`id`) a cada enlace para referencia en el código JavaScript o CSS si es necesario.
+
+Estos cambios permiten a los usuarios ordenar la lista de películas al hacer clic en los títulos de las columnas mencionadas, mejorando la interactividad y la experiencia del usuario al explorar la aplicación RottenPotatoes.
+
+
+![Alt text](image-4a.png)
+
+Para abordar la funcionalidad de ordenación en la página principal que muestra la lista de películas, realizamos modificaciones en el método index del controlador `movies_controller.rb.` La lógica se implementa para gestionar las solicitudes de ordenación basadas en las columnas "Movie Title" y "Release Date".
+
+![Alt text](image-8a.png)
+
+
+1. *sort_column:* Determina la columna por la cual ordenar las películas. Se utiliza en la acción `index` para personalizar el orden de las películas.
+
+2. *toggle_direction:* Alterna entre las direcciones de orden ascendente y descendente. Se utiliza en la acción `index` para cambiar la dirección de ordenamiento.
+
+Estos métodos se integran en la acción `index` para proporcionar funcionalidades adicionales de ordenamiento y estilo en la lista de películas.
+
+
 d. Modifique la acción Index del controlador para que devuelva las películas ordenadas alfabéticamente por título. Utiliza el método sort del módulo Enumerable de Ruby
+
+### Pregunta 4.2
+
+Nos pide extender el código del controlador del código siguiente dado con los métodos edit y update para 
+las críticas. Nos pide usar un filtro de controlador para asegurarnos que un usuario sólo puede editar o 
+actualizar sus propias críticas.
+
+Como se puede observar antes de proceder con los cambios en nuestro controlador, se ha añadido en la parte de vistas el método `edit` que permite editar las críticas.
+
+ 
+![Alt text](image-7.png)!
+
+
+Una vez realizados los cambios en nuestra vista, se ha añadido el método `update` que permite actualizar las críticas y también el método `edit`
+
+
+![Alt text](image-8.png)
