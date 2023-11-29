@@ -127,3 +127,79 @@ Se puede comprobar lo expuesto con la siguiente salida de la ejecucion del archi
 ![Alt text](image.png)
 
 ## Pregunta 3
+
+El problema con el enfoque dado es que la clase `CurrentDay` instancia directamente la clase `MonthlySchedule` dentro de su método `initialize`. Esto crea una dependencia fuerte y acoplada entre `CurrentDay` y `MonthlySchedule`, lo que dificulta la prueba del método `workday?`. La dependencia directa hace que sea difícil realizar pruebas unitarias efectivas, ya que no puedes aislar la lógica de `workday?` de la implementación de `MonthlySchedule`.
+
+Modificaremos el código para aplicar la inyección de dependencia y hacer que `MonthlySchedule` sea una dependencia externa pasada como argumento al constructor de `CurrentDay`:
+
+```ruby
+class CurrentDay
+  def initialize(schedule)
+    @date = Date.today
+    @schedule = schedule
+  end
+
+  def work_hours
+    @schedule.work_hours_for(@date)
+  end
+
+  def workday?
+    !@schedule.holidays.include?(@date)
+  end
+end
+```
+
+Ahora, para instanciar `CurrentDay`, necesitaremos pasar una instancia de `MonthlySchedule` al constructor:
+
+Esto de aquí, suponiendo que ya tenemos una instancia de MonthlySchedule creada, creamos una instancia de CurrentDay con inyección de dependencia y luego llamamos a los métodos:
+
+```ruby
+monthly_schedule = MonthlySchedule.new(2020, 12)
+
+current_day = CurrentDay.new(monthly_schedule)
+
+puts current_day.work_hours
+puts current_day.workday?
+```
+Para realizar pruebas unitarias y cambiar la fecha actual solo para las pruebas, haremos lo siguiente:
+
+```ruby
+before do
+  Date.singleton_class.class_eval do
+    alias_method :_today, :today
+    define_method(:today) { Date.new(2020, 12, 16) }
+  end
+end
+
+after do
+  Date.singleton_class.class_eval do
+    alias_method :today, :_today
+    remove_method :_today
+  end
+end
+```
+Esto cambiará temporalmente el comportamiento del método `today` de `Date` solo durante las pruebas y luego lo restaurará después de las pruebas.
+
+**¿Qué sucede en JavaScript con el DIP en este ejemplo?**
+En JavaScript, se puede  aplicar DIP mediante la inyección de dependencias y utilizando interfaces o clases abstractas para definir contratos. Sin embargo, la aplicación concreta del DIP puede variar según la estructura y el diseño del código, para este ejemplo ... 
+
+## Pregunta 4
+
+Este inciso contiene varias preguntas dentro de ello, gran parte de ellas son actividades propuestas en clase, es por ello que se dara respuesta a cada uno de ellas, implementando lo solicitado en cada caso y como evidencia screenshot de los fragmentos de codigo.
+
+
+### Pregunta 4.1
+Esta sección nos pide utilizar el repositorio y las actividades que has hemos desarrollado enIntroducción a Rails.
+
+a. Modifica la vista Index para incluir el número de fila de cada fila en la tabla de películas.  
+
+
+
+b. Modifica la vista Index para que cuando se sitúe el ratón sobre una fila de la tabla, dicha 
+fila cambie temporalmente su color de fondo a amarillo u otro color.  
+
+
+c. Modifica la acción Index del controlador para que devuelva las películas ordenadas 
+alfabéticamente por título, en vez de por fecha de lanzamiento. 
+
+d. Modifique la acción Index del controlador para que devuelva las películas ordenadas alfabéticamente por título. Utiliza el método sort del módulo Enumerable de Ruby
