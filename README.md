@@ -253,8 +253,9 @@ Para abordar la funcionalidad de ordenación en la página principal que muestra
 
 Estos métodos se integran en la acción `index` para proporcionar funcionalidades adicionales de ordenamiento y estilo en la lista de películas.
 
+Se puede observar aqui que las peliculas se ordenaron alfabetamente:
 
-d. Modifique la acción Index del controlador para que devuelva las películas ordenadas alfabéticamente por título. Utiliza el método sort del módulo Enumerable de Ruby
+![Alt text](image-11.png)
 
 ### Pregunta 4.2
 
@@ -269,6 +270,13 @@ Como se puede observar antes de proceder con los cambios en nuestro controlador,
 
 
 Una vez realizados los cambios en nuestra vista, se ha añadido el método `update` que permite actualizar las críticas y también el método `edit`
-
-
+ 
 ![Alt text](image-8.png)
+
+De este modo se puede observar que se tiene la opcion que al hacer click se puede editar la pelicula
+
+![Alt text](image-9.png)
+
+Aqui se observa que la pelicula se edita correctamente.
+
+![Alt text](image-10.png)
